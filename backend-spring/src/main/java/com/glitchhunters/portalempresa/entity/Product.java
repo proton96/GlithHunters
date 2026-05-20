@@ -1,7 +1,26 @@
 package com.glitchhunters.portalempresa.entity;
 
-public class Product {
-    
+import jakarta.persistence.*;
+import lombok.*;
 
-    // Esta clase representa los productos que se gestionan en el sistema
+@Entity
+@Table(name = "products")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class Product {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(unique = true, nullable = false)
+    private String name;
+
+    private String description;
+
+    private int stock;
+
+    private double price;
 }
