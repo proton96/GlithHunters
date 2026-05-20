@@ -1,0 +1,12 @@
+.employee-list {
+  padding: 24px;
+}
+
+.employee-list h1 {
+  margin-bottom: 8px;
+  color: #222;
+}
+
+.employee-list p {
+  color: #555;
+}

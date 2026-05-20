@@ -1,18 +1,18 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { AuthService } from '../../services/auth.service';
-import { AuthRequest } from '../../models/auth-request.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
+  standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './login.html',
   styleUrl: './login.css'
 })
 export class LoginComponent {
   private fb = inject(FormBuilder);
-  private authService = inject(AuthService);
+  private router = inject(Router);
 
   loginForm = this.fb.group({
     username: ['', Validators.required],
@@ -24,19 +24,7 @@ export class LoginComponent {
       this.loginForm.markAllAsTouched();
       return;
     }
-
-    const payload: AuthRequest = {
-      username: this.loginForm.value.username ?? '',
-      password: this.loginForm.value.password ?? ''
-    };
-
-    this.authService.login(payload).subscribe({
-      next: (response) => {
-        console.log('Login correcto', response);
-      },
-      error: (error) => {
-        console.error('Error en login', error);
-      }
-    });
+    // redirige al dashboard directamente (sin autenticacion)
+    this.router.navigate(['/dashboard']);
   }
 }

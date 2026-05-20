@@ -1,0 +1,42 @@
+<section class="employee-list">
+  <h1>Empleados</h1>
+
+  @if (loading) {
+    <p>Cargando empleados...</p>
+  }
+
+  @if (error) {
+    <p>{{ error }}</p>
+  }
+
+  @if (!loading && employees.length === 0 && !error) {
+    <p>No hay empleados registrados.</p>
+  }
+
+  @if (!loading && employees.length > 0) {
+    <table>
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>Email</th>
+          <th>Teléfono</th>
+          <th>Salario</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (emp of employees; track emp.id) {
+          <tr>
+            <td>{{ emp.firstName }}</td>
+            <td>{{ emp.lastName }}</td>
+            <td>{{ emp.email }}</td>
+            <td>{{ emp.phone }}</td>
+            <td>{{ emp.salary }}</td>
+            <td><button (click)="delete(emp.id)">Eliminar</button></td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</section>
