@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+// CRUD de movimientos de stock — /api/stock-movements
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/stock-movements")
 public class StockMovementController {
@@ -17,16 +19,17 @@ public class StockMovementController {
         this.stockMovementService = stockMovementService;
     }
 
+    // devuelve todos los movimientos registrados
     @GetMapping
     public List<StockMovement> getAll() { return stockMovementService.getAll(); }
 
-    /** GET /api/stock-movements/product/{productId} → movement history for one product */
+    // devuelve el historial de movimientos de un producto concreto
     @GetMapping("/product/{productId}")
     public List<StockMovement> getByProduct(@PathVariable Long productId) {
         return stockMovementService.getByProduct(productId);
     }
 
-    /** POST /api/stock-movements → registers a movement and updates the product's stock */
+    // registra un movimiento y actualiza el stock del producto
     @PostMapping
     public StockMovement register(@RequestBody StockMovementDto dto) {
         return stockMovementService.register(dto);

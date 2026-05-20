@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+// CRUD de productos — /api/products
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/products")
 public class ProductController {
@@ -21,6 +23,7 @@ public class ProductController {
     @GetMapping
     public List<Product> getAll() { return productService.getAll(); }
 
+    // productos con stock por debajo del umbral indicado (por defecto 5)
     @GetMapping("/low-stock")
     public List<Product> getLowStock(@RequestParam(defaultValue = "5") int threshold) {
         return productService.getLowStock(threshold);

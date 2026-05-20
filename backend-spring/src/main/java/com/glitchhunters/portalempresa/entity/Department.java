@@ -3,6 +3,7 @@ package com.glitchhunters.portalempresa.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+// Entidad que representa un departamento de la empresa
 @Entity
 @Table(name = "departments")
 @Data
@@ -15,6 +16,8 @@ public class Department {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false, unique = true)
     private String name;
+
+    private String description;
 }

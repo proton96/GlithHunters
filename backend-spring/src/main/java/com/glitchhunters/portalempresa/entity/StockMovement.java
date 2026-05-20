@@ -2,8 +2,9 @@ package com.glitchhunters.portalempresa.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
+// Registro de cada entrada o salida de stock de un producto
 @Entity
 @Table(name = "stock_movements")
 @Data
@@ -16,6 +17,7 @@ public class StockMovement {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // producto al que pertenece el movimiento
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
@@ -25,12 +27,10 @@ public class StockMovement {
 
     private int quantity;
 
-    private LocalDateTime timestamp;
-
-    private String notes;
+    private LocalDate date;
 
     public enum MovementType {
-        IN,  // recibido / devuelto
-        OUT  // retirado
+        IN,  // entrada de stock
+        OUT  // salida de stock
     }
 }

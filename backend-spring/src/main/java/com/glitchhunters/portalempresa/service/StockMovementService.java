@@ -8,7 +8,7 @@ import com.glitchhunters.portalempresa.repository.StockMovementRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -25,6 +25,7 @@ public class StockMovementService {
 
     public List<StockMovement> getAll() { return stockMovementRepository.findAll(); }
 
+    // historial de movimientos de un producto concreto
     public List<StockMovement> getByProduct(Long productId) {
         return stockMovementRepository.findByProductId(productId);
     }
@@ -34,25 +35,22 @@ public class StockMovementService {
         Product product = productoRepository.findById(dto.getProductId())
                 .orElseThrow(() -> new RuntimeException("Producto no encontrado: " + dto.getProductId()));
 
-        // Update stock quantity
+        // actualizar el stock segun el tipo de movimiento
         if (dto.getType() == StockMovement.MovementType.IN) {
             product.setStock(product.getStock() + dto.getQuantity());
         } else {
-            int newStock = product.getStock() - dto.getQuantity();
-            if (newStock < 0) throw new RuntimeException("Stock insuficiente.");
-            product.setStock(newStock);
+            int nuevoStock = product.getStock() - dto.getQuantity();
+            if (nuevoStock < 0) throw new RuntimeException("Stock insuficiente.");
+            product.setStock(nuevoStock);
         }
         productoRepository.save(product);
 
-        // Record the movement
-        StockMovement movement = StockMovement.builder()
+        // guardar el registro del movimiento
+        return stockMovementRepository.save(StockMovement.builder()
                 .product(product)
                 .type(dto.getType())
                 .quantity(dto.getQuantity())
-                .timestamp(LocalDateTime.now())
-                .notes(dto.getNotes())
-                .build();
-
-        return stockMovementRepository.save(movement);
+                .date(LocalDate.now())
+                .build());
     }
 }

@@ -19,16 +19,17 @@ public class DepartmentService {
 
     public Department getById(Long id) {
         return departmentRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Departamento con id: " + id + " no encontrado."));
+                .orElseThrow(() -> new RuntimeException("Departamento con id " + id + " no encontrado."));
     }
 
-    public Department create(String name) {
-        return departmentRepository.save(Department.builder().name(name).build());
+    public Department create(Department department) {
+        return departmentRepository.save(department);
     }
 
-    public Department update(Long id, String name) {
+    public Department update(Long id, Department data) {
         Department dept = getById(id);
-        dept.setName(name);
+        dept.setName(data.getName());
+        dept.setDescription(data.getDescription());
         return departmentRepository.save(dept);
     }
 

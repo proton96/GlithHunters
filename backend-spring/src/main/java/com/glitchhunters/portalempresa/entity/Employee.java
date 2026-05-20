@@ -2,8 +2,9 @@ package com.glitchhunters.portalempresa.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import java.time.LocalDateTime;
+import java.math.BigDecimal;
 
+// Entidad que representa a un empleado de la empresa
 @Entity
 @Table(name = "employees")
 @Data
@@ -23,16 +24,9 @@ public class Employee {
     private String lastName;
 
     private String email;
+    private String phone;
+    private BigDecimal salary;
 
-    @ManyToOne
-    @JoinColumn(name = "department")
-    private Department department;
-
-    @OneToOne
-    @JoinColumn(name = "id")
-    private User user;
-
-    private boolean checkedIn;
-    private LocalDateTime lastCheckIn;
-    private LocalDateTime lastCheckOut;
+    // id del departamento al que pertenece
+    private Long departmentId;
 }

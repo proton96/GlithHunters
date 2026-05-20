@@ -6,8 +6,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
+// CRUD de departamentos — /api/departments
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/departments")
 public class DepartmentController {
@@ -25,13 +26,13 @@ public class DepartmentController {
     public Department getById(@PathVariable Long id) { return departmentService.getById(id); }
 
     @PostMapping
-    public Department create(@RequestBody Map<String, String> body) {
-        return departmentService.create(body.get("name"));
+    public Department create(@RequestBody Department department) {
+        return departmentService.create(department);
     }
 
     @PutMapping("/{id}")
-    public Department update(@PathVariable Long id, @RequestBody Map<String, String> body) {
-        return departmentService.update(id, body.get("name"));
+    public Department update(@PathVariable Long id, @RequestBody Department department) {
+        return departmentService.update(id, department);
     }
 
     @DeleteMapping("/{id}")

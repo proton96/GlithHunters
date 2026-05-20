@@ -1,12 +1,14 @@
 package com.glitchhunters.portalempresa.dto;
 
 import lombok.Data;
+import java.math.BigDecimal;
 
-// creación o actualización del producto
+// datos para crear o actualizar un producto
 @Data
 public class ProductDto {
     private String name;
-    private String description;
+    private String sku;
     private int stock;
-    private double price;
+    private int minStock;
+    private BigDecimal price;
 }

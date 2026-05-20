@@ -2,7 +2,9 @@ package com.glitchhunters.portalempresa.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import java.math.BigDecimal;
 
+// Entidad que representa un producto del inventario
 @Entity
 @Table(name = "products")
 @Data
@@ -15,12 +17,16 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private String name;
 
-    private String description;
+    @Column(unique = true)
+    private String sku;
 
     private int stock;
 
-    private double price;
+    // stock minimo para alertas de reposicion
+    private int minStock;
+
+    private BigDecimal price;
 }

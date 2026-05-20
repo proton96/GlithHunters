@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+// CRUD de empleados — /api/employees
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/employees")
 public class EmployeeController {
@@ -20,9 +22,6 @@ public class EmployeeController {
 
     @GetMapping
     public List<Employee> getAll() { return employeeService.getAll(); }
-
-    @GetMapping("/checked-in")
-    public List<Employee> getCheckedIn() { return employeeService.getCheckedIn(); }
 
     @GetMapping("/{id}")
     public Employee getById(@PathVariable Long id) { return employeeService.getById(id); }
@@ -40,12 +39,4 @@ public class EmployeeController {
         employeeService.delete(id);
         return ResponseEntity.noContent().build();
     }
-
-    // marca que el empleado haya ido a la oficina
-    @PostMapping("/{id}/checkin")
-    public Employee checkIn(@PathVariable Long id) { return employeeService.checkIn(id); }
-
-    // marca que el empleado se haya ido de la oficina
-    @PostMapping("/{id}/checkout")
-    public Employee checkOut(@PathVariable Long id) { return employeeService.checkOut(id); }
 }
