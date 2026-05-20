@@ -8,10 +8,7 @@ import org.springframework.web.filter.CorsFilter;
 
 import java.util.List;
 
-/**
- * Allows the frontend (running on a different port during development)
- * to call this API. Adjust allowedOrigins for your production domain.
- */
+// para llamar api
 @Configuration
 public class CorsConfig {
 

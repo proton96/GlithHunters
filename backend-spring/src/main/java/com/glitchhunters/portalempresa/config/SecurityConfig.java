@@ -13,15 +13,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-/**
- * Spring Security configuration.
- *
- * Key decisions:
- *   - CSRF disabled: we use JWT (stateless), not browser sessions
- *   - Session policy STATELESS: no HttpSession created or used
- *   - Public routes: /api/auth/** (login) and /h2-console/** (dev tool)
- *   - Everything else requires a valid JWT
- */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -33,20 +24,22 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-            .csrf(csrf -> csrf.disable())
-            .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/**").permitAll()
-                .requestMatchers("/h2-console/**").permitAll()  // remove in prod
-                .anyRequest().authenticated()
-            )
-            // Needed so the H2 console iframe renders correctly
-            .headers(h -> h.frameOptions(f -> f.disable()))
-            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+    public SecurityFilterChain filterChain(HttpSecurity http) {
+        try {
+            http
+                .csrf(csrf -> csrf.disable())
+                .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(auth -> auth
+                    .requestMatchers("/api/auth/**").permitAll()
+                    .requestMatchers("/h2-console/**").permitAll()
+                    .anyRequest().authenticated()
+                ).headers(h -> h.frameOptions(f -> f.disable()))
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
-        return http.build();
+            return http.build();
+        } catch (Exception e) {
+            throw new IllegalStateException("Fallo en la configuración de seguridad.", e);
+        }
     }
 
     @Bean
@@ -55,7 +48,11 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
-        return config.getAuthenticationManager();
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) {
+        try {
+            return config.getAuthenticationManager();
+        } catch (Exception e) {
+            throw new IllegalStateException("Fallo al obtener el AuthenticationManager.", e);
+        }
     }
 }
