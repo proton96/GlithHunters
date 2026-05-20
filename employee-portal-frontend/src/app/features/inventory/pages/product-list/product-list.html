@@ -1,0 +1,22 @@
+xml<h2>Inventario</h2>
+
+@if (loading) {
+  <p>Cargando productos...</p>
+}
+
+@if (error) {
+  <p>{{ error }}</p>
+}
+
+@if (!loading && products.length > 0) {
+  <ul>
+    @for (product of products; track product.id) {
+      <li>
+        <strong>{{ product.name }}</strong>
+        | SKU: {{ product.sku }}
+        | Stock: {{ product.stock }}
+        | Precio: {{ product.price }}
+      </li>
+    }
+  </ul>
+}

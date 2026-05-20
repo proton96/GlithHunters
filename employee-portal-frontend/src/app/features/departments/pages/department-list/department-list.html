@@ -1,0 +1,19 @@
+<h2>Departamentos</h2>
+
+@if (loading) {
+  <p>Cargando departamentos...</p>
+}
+
+@if (error) {
+  <p>{{ error }}</p>
+}
+
+@if (!loading && departments.length > 0) {
+  <ul>
+    @for (department of departments; track department.id) {
+      <li>
+        <strong>{{ department.name }}</strong> - {{ department.description }}
+      </li>
+    }
+  </ul>
+}
